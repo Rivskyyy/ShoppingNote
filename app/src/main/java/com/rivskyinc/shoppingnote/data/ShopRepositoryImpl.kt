@@ -10,6 +10,12 @@ object ShopRepositoryImpl : ShopReposiroty {
 
     private var autoIncrementId = 0
 
+    init {
+        for ( i in 0 until 10 ){
+                val item = ShoppingNote("Name $i", i, true  )
+                addShoppingNote(item)
+        }
+    }
     override fun addShoppingNote(shoppingNote: ShoppingNote) {
         if ( shoppingNote.id == ShoppingNote.UNDEFINED){
             shoppingNote.id = autoIncrementId++
