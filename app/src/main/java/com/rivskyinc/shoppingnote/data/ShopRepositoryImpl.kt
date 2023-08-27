@@ -1,13 +1,15 @@
 package com.rivskyinc.shoppingnote.data
 
-import com.rivskyinc.shoppingnote.domain.ShopReposiroty
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.rivskyinc.shoppingnote.domain.ShopRepository
 import com.rivskyinc.shoppingnote.domain.ShoppingNote
 import java.lang.RuntimeException
 
-object ShopRepositoryImpl : ShopReposiroty {
+object ShopRepositoryImpl : ShopRepository {
 
     private var shopList = mutableListOf<ShoppingNote>()
-
+    private val shopListLD = MutableLiveData<List<ShoppingNote>>()
     private var autoIncrementId = 0
 
     init {
@@ -16,22 +18,25 @@ object ShopRepositoryImpl : ShopReposiroty {
                 addShoppingNote(item)
         }
     }
+
     override fun addShoppingNote(shoppingNote: ShoppingNote) {
         if ( shoppingNote.id == ShoppingNote.UNDEFINED){
             shoppingNote.id = autoIncrementId++
         }
 
         shopList.add(shoppingNote)
+        updateList()
     }
 
     override fun deleteShoppingNote(shoppingNote: ShoppingNote) {
         shopList.remove(shoppingNote)
+        updateList()
     }
 
     override fun editShoppingNote(shoppingNote: ShoppingNote) {
         val oldElement = getShoppingItem(shoppingNote.id)
         shopList.remove(oldElement)
-        shopList.add(shoppingNote)
+        addShoppingNote(shoppingNote)
     }
 
     override fun getShoppingItem(shoppingId: Int): ShoppingNote {
@@ -39,8 +44,13 @@ object ShopRepositoryImpl : ShopReposiroty {
             ?: throw RuntimeException("Element with id $shoppingId is not found ")
     }
 
-    override fun getShoppingNoteList(): List<ShoppingNote> {
-        return shopList.toList()
+    override fun getShoppingNoteList(): LiveData<List<ShoppingNote>> {
+
+        return shopListLD
+    }
+
+    private fun updateList(){
+        shopListLD.value = shopList.toList()
     }
 
 

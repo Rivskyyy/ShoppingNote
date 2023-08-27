@@ -1,8 +1,8 @@
 package com.rivskyinc.shoppingnote.domain
 
-class GetShoppingItemUseCase(private val shopReposiroty: ShopReposiroty) {
+class GetShoppingItemUseCase(private val shopRepository: ShopRepository) {
 
     fun getShoppingItem(shoppingId: Int): ShoppingNote {
-       return  shopReposiroty.getShoppingItem(shoppingId)
+       return  shopRepository.getShoppingItem(shoppingId)
     }
 }

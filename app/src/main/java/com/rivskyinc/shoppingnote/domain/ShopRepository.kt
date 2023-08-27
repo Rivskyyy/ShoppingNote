@@ -1,6 +1,8 @@
 package com.rivskyinc.shoppingnote.domain
 
-interface ShopReposiroty {
+import androidx.lifecycle.LiveData
+
+interface ShopRepository {
 
     fun addShoppingNote(shoppingNote: ShoppingNote)
 
@@ -10,5 +12,5 @@ interface ShopReposiroty {
 
     fun getShoppingItem(shoppingId: Int): ShoppingNote
 
-    fun getShoppingNoteList() : List<ShoppingNote>
+    fun getShoppingNoteList() : LiveData<List<ShoppingNote>>
 }

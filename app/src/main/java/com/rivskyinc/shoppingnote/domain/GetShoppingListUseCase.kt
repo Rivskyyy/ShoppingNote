@@ -1,8 +1,10 @@
 package com.rivskyinc.shoppingnote.domain
 
-class GetShoppingListUseCase(private val shopReposiroty: ShopReposiroty) {
+import androidx.lifecycle.LiveData
 
-    fun getShoppingNoteList() : List<ShoppingNote>{
-       return  shopReposiroty.getShoppingNoteList()
+class GetShoppingListUseCase(private val shopRepository: ShopRepository) {
+
+    fun getShoppingNoteList() : LiveData<List<ShoppingNote>>{
+       return  shopRepository.getShoppingNoteList()
     }
 }

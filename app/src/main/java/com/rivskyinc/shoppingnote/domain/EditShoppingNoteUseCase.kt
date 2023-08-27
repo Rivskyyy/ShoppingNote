@@ -1,8 +1,8 @@
 package com.rivskyinc.shoppingnote.domain
 
-class EditShoppingNoteUseCase(private val shopReposiroty: ShopReposiroty) {
+class EditShoppingNoteUseCase(private val shopRepository: ShopRepository) {
 
     fun editShoppingNote(shoppingNote: ShoppingNote){
-        shopReposiroty.editShoppingNote(shoppingNote)
+        shopRepository.editShoppingNote(shoppingNote)
     }
 }

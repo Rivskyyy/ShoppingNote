@@ -1,8 +1,8 @@
 package com.rivskyinc.shoppingnote.domain
 
-class DeleteShoppingNoteUseCase(private val shopReposiroty: ShopReposiroty) {
+class DeleteShoppingNoteUseCase(private val shopRepository: ShopRepository) {
 
     fun deleteShoppingNote(shoppingNote: ShoppingNote) {
-        shopReposiroty.deleteShoppingNote(shoppingNote)
+        shopRepository.deleteShoppingNote(shoppingNote)
     }
 }
