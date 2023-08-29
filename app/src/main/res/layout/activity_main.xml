@@ -25,5 +25,6 @@
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="add new shop item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
