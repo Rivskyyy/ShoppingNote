@@ -10,7 +10,13 @@ import com.rivskyinc.shoppingnote.domain.ShoppingNote
 
 class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
 
-    val shopList = listOf<ShoppingNote>()
+    var shopList = listOf<ShoppingNote>()
+        set(value) {
+            field = value
+
+            notifyDataSetChanged()
+        }
+
 
     class ShopItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvName = itemView.findViewById<TextView>(R.id.tv_name)
@@ -18,7 +24,11 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.items_disabled, parent, false )
+        val view =
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.items_enabled,
+                parent,
+                false)
         return ShopItemViewHolder(view)
     }
 
