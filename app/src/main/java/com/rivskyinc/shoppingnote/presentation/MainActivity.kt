@@ -19,13 +19,11 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerVew()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
-            adapter.shopList = it
+            adapter.submitList(it)
         }
-
     }
 
     private fun setupRecyclerVew() {
-
 
         val recyclerView = findViewById<RecyclerView>(R.id.rv_shop_list)
         adapter = ShopListAdapter()
@@ -35,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         setupOnLinClickListener()
         setupOnClickListener()
     }
-
 
     private fun setupOnSwipeListener(recyclerView: RecyclerView?) {
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
@@ -50,15 +47,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-               // val position = viewHolder.adapterPosition
-                val item = adapter.shopList[viewHolder.adapterPosition]
+                val item = adapter.currentList[viewHolder.adapterPosition]
                 viewModel.deleteItem(item)
-
-               // viewModel.deleteItem(adapter.shopList[position])
-              //  adapter.notifyItemRemoved(position)
             }
         })
-
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
@@ -76,5 +68,3 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-
-

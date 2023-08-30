@@ -5,21 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rivskyinc.shoppingnote.R
 import com.rivskyinc.shoppingnote.domain.ShoppingNote
 import java.lang.RuntimeException
 
-class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
+class ShopListAdapter : ListAdapter<ShoppingNote, ShopListAdapter.ShopItemViewHolder>(ShopItemDiffCallback()){
 
-    var shopList = listOf<ShoppingNote>()
-        set(value) {
-            val callback = ShopNoteDiffCallback(shopList, value)
-            val diffResult = DiffUtil.calculateDiff(callback)
-            diffResult.dispatchUpdatesTo(this)
-            field = value
-
-        }
     var onLongClickListener : ((ShoppingNote) -> Unit)? = null
     var onClickListener : ((ShoppingNote) -> Unit)? = null
     class ShopItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -42,16 +35,9 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
                 false)
         return ShopItemViewHolder(view)
     }
-
-
-
-    override fun getItemCount(): Int {
-        return shopList.size
-    }
-
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
 
-        val shopItem = shopList[position]
+        val shopItem = getItem(position)
         holder.tvName.text = shopItem.name
         holder.tvCount.text = shopItem.count.toString()
         holder.itemView.setOnLongClickListener {
@@ -64,7 +50,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = shopList[position]
+        val item = getItem(position)
        return  if ( item.enabled){
             VIEW_TYPE_ENABLED
         } else{
