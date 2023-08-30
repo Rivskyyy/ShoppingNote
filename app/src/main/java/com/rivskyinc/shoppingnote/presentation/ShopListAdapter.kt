@@ -17,7 +17,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
             notifyDataSetChanged()
         }
     var onLongClickListener : ((ShoppingNote) -> Unit)? = null
-
+    var onClickListener : ((ShoppingNote) -> Unit)? = null
     class ShopItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvName = itemView.findViewById<TextView>(R.id.tv_name)
         val tvCount = itemView.findViewById<TextView>(R.id.tv_count)
@@ -53,6 +53,9 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         holder.itemView.setOnLongClickListener {
             onLongClickListener?.invoke(shopItem)
             true
+        }
+        holder.itemView.setOnClickListener {
+            onClickListener?.invoke(shopItem)
         }
     }
 

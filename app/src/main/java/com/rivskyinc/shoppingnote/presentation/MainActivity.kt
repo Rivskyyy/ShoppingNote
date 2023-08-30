@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity() {
             viewModel.editItem(it)
         }
 
+        adapter.onClickListener = {
+            Log.d("MainActivityTest", it.toString())
+        }
     }
 
 
