@@ -29,7 +29,13 @@ class MainActivity : AppCompatActivity() {
         adapter = ShopListAdapter()
         recyclerView.adapter = adapter
 
+
+        adapter.onLongClickListener = {
+            viewModel.editItem(it)
+        }
+
     }
+
 
 }
 
