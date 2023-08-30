@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.rivskyinc.shoppingnote.domain.ShopRepository
 import com.rivskyinc.shoppingnote.domain.ShoppingNote
 import java.lang.RuntimeException
+import kotlin.random.Random
 
 object ShopRepositoryImpl : ShopRepository {
 
@@ -13,8 +14,8 @@ object ShopRepositoryImpl : ShopRepository {
     private var autoIncrementId = 0
 
     init {
-        for ( i in 0 until 10 ){
-                val item = ShoppingNote("Name $i", i, true  )
+        for ( i in 0 until 1000 ){
+                val item = ShoppingNote("Name $i", i, Random.nextBoolean()  )
                 addShoppingNote(item)
         }
     }
