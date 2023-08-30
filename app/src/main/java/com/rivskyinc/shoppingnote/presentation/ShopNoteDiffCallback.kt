@@ -3,7 +3,7 @@ package com.rivskyinc.shoppingnote.presentation
 import androidx.recyclerview.widget.DiffUtil
 import com.rivskyinc.shoppingnote.domain.ShoppingNote
 
-class ShopeNoteDiffCallback(
+class ShopNoteDiffCallback(
     private val oldList: List<ShoppingNote>,
     private val newList: List<ShoppingNote>
 ) : DiffUtil.Callback() {

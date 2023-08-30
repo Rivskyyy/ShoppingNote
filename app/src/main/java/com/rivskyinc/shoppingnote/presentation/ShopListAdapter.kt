@@ -14,7 +14,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
 
     var shopList = listOf<ShoppingNote>()
         set(value) {
-            val callback = ShopeNoteDiffCallback(shopList, value)
+            val callback = ShopNoteDiffCallback(shopList, value)
             val diffResult = DiffUtil.calculateDiff(callback)
             diffResult.dispatchUpdatesTo(this)
             field = value
