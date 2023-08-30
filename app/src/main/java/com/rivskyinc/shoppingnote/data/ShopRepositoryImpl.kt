@@ -9,7 +9,9 @@ import kotlin.random.Random
 
 object ShopRepositoryImpl : ShopRepository {
 
-    private var shopList = mutableListOf<ShoppingNote>()
+    private var shopList =sortedSetOf<ShoppingNote>({
+            o1, o2 -> o1.id.compareTo(o2.id) })
+
     private val shopListLD = MutableLiveData<List<ShoppingNote>>()
     private var autoIncrementId = 0
 
