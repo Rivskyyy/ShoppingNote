@@ -20,12 +20,14 @@ class DetailViewModel : ViewModel() {
     private val getItemUseCase = GetShoppingItemUseCase(repository)
 
     private var _errorInputName = MutableLiveData<Boolean>()
-    val errorInputName :LiveData<Boolean>
+    val errorInputName: LiveData<Boolean>
         get() = _errorInputName
-
     private var _errorInputCount = MutableLiveData<Boolean>()
-    val errorInputCount : LiveData<Boolean>
+    val errorInputCount: LiveData<Boolean>
         get() = _errorInputCount
+    private var _shopItem = MutableLiveData<ShoppingNote>()
+    val shopItem: LiveData<ShoppingNote>
+        get() = _shopItem
 
     fun addItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
@@ -49,6 +51,7 @@ class DetailViewModel : ViewModel() {
 
     fun getItem(itemId: Int) {
         val item = getItemUseCase.getShoppingItem(itemId)
+        _shopItem.value = item
     }
 
     private fun parseName(inputName: String?): String {
@@ -77,10 +80,12 @@ class DetailViewModel : ViewModel() {
         }
         return result
     }
-    fun resetErrorInputName(){
+
+    fun resetErrorInputName() {
         _errorInputName.value = false
     }
-    fun resetErrorInputCount(){
+
+    fun resetErrorInputCount() {
         _errorInputCount.value = false
     }
 
