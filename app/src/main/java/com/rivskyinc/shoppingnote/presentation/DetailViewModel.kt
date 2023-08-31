@@ -27,8 +27,14 @@ class DetailViewModel : ViewModel() {
         }
     }
 
-    fun editItem(shoppingNote: ShoppingNote) {
-        editShoppingNoteUseCase.editShoppingNote(shoppingNote)
+    fun editItem(inputName: String?, inputCount: String?) {
+        val name = parseName(inputName)
+        val count = parseCount(inputCount)
+        val inputValid = validateInput(name,count)
+        if ( inputValid){
+            val shoppingNote = ShoppingNote(name, count, true)
+            editShoppingNoteUseCase.editShoppingNote(shoppingNote)
+        }
     }
 
     fun getItem(itemId: Int) {
