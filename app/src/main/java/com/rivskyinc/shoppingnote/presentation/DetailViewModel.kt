@@ -47,9 +47,12 @@ class DetailViewModel : ViewModel() {
         val count = parseCount(inputCount)
         val inputValid = validateInput(name, count)
         if (inputValid) {
-            val shoppingNote = ShoppingNote(name, count, true)
-            editShoppingNoteUseCase.editShoppingNote(shoppingNote)
-            shouldCloseScreen()
+           _shopItem.value?.let {
+               val item = it.copy(name = name, count = count)
+               editShoppingNoteUseCase.editShoppingNote(item)
+               shouldCloseScreen()
+           }
+
         }
     }
 
