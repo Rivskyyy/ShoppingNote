@@ -30,8 +30,10 @@ class DetailShopItemActivity : AppCompatActivity() {
 
         fun newIntentEditItem(context: Context, id : Int) : Intent {
             val intent = Intent(context, DetailShopItemActivity::class.java)
+            intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
             intent.putExtra(MODE_ID, id)
             return intent
+
         }
     }
 }
