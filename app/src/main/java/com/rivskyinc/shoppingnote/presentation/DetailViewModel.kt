@@ -1,6 +1,5 @@
 package com.rivskyinc.shoppingnote.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +27,9 @@ class DetailViewModel : ViewModel() {
     private var _shopItem = MutableLiveData<ShoppingNote>()
     val shopItem: LiveData<ShoppingNote>
         get() = _shopItem
+    private var _closePermission = MutableLiveData<Unit>()
+    val closePermissionScreen : LiveData<Unit>
+        get() = _closePermission
 
     fun addItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
@@ -36,6 +38,7 @@ class DetailViewModel : ViewModel() {
         if (inputValid) {
             val shoppingNote = ShoppingNote(name, count, true)
             addShoppingNoteUseCase.addShoppingNote(shoppingNote)
+            shouldCloseScreen()
         }
     }
 
@@ -46,6 +49,7 @@ class DetailViewModel : ViewModel() {
         if (inputValid) {
             val shoppingNote = ShoppingNote(name, count, true)
             editShoppingNoteUseCase.editShoppingNote(shoppingNote)
+            shouldCloseScreen()
         }
     }
 
@@ -87,6 +91,9 @@ class DetailViewModel : ViewModel() {
 
     fun resetErrorInputCount() {
         _errorInputCount.value = false
+    }
+    private fun shouldCloseScreen(){
+        _closePermission.value = Unit
     }
 
 }
