@@ -1,6 +1,8 @@
 package com.rivskyinc.shoppingnote.presentation
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rivskyinc.shoppingnote.data.ShopRepositoryImpl
 import com.rivskyinc.shoppingnote.domain.AddShoppingNoteUseCase
@@ -17,11 +19,19 @@ class DetailViewModel : ViewModel() {
     private val editShoppingNoteUseCase = EditShoppingNoteUseCase(repository)
     private val getItemUseCase = GetShoppingItemUseCase(repository)
 
+    private var _errorInputName = MutableLiveData<Boolean>()
+    val errorInputName :LiveData<Boolean>
+        get() = _errorInputName
+
+    private var _errorInputCount = MutableLiveData<Boolean>()
+    val errorInputCount : LiveData<Boolean>
+        get() = _errorInputCount
+
     fun addItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
         val count = parseCount(inputCount)
-        val inputValid = validateInput(name,count)
-        if ( inputValid){
+        val inputValid = validateInput(name, count)
+        if (inputValid) {
             val shoppingNote = ShoppingNote(name, count, true)
             addShoppingNoteUseCase.addShoppingNote(shoppingNote)
         }
@@ -30,8 +40,8 @@ class DetailViewModel : ViewModel() {
     fun editItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
         val count = parseCount(inputCount)
-        val inputValid = validateInput(name,count)
-        if ( inputValid){
+        val inputValid = validateInput(name, count)
+        if (inputValid) {
             val shoppingNote = ShoppingNote(name, count, true)
             editShoppingNoteUseCase.editShoppingNote(shoppingNote)
         }
@@ -47,23 +57,32 @@ class DetailViewModel : ViewModel() {
 
     private fun parseCount(inputCount: String?): Int {
         return try {
-             inputCount?.trim()?.toInt() ?: 0
+            inputCount?.trim()?.toInt() ?: 0
 
         } catch (e: Exception) {
-                0
+            0
         }
     }
-    private fun validateInput(name: String, count : Int) : Boolean {
+
+    private fun validateInput(name: String, count: Int): Boolean {
         var result = true
-        if ( name.isBlank()){
-            //TODO: show error input name
+        if (name.isBlank()) {
+            _errorInputName.value = true
             result = false
         }
-        if ( count <= 0 ){
+        if (count <= 0) {
+            _errorInputCount.value = true
             //TODO: show error input count
             result = false
         }
         return result
     }
+    fun resetErrorInputName(){
+        _errorInputName.value = false
+    }
+    fun resetErrorInputCount(){
+        _errorInputCount.value = false
+    }
+
 }
 
