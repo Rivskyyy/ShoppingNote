@@ -15,16 +15,15 @@ class DetailViewModel : ViewModel() {
     val editShoppingNoteUseCase = EditShoppingNoteUseCase(repository)
     val getItemUseCase = GetShoppingItemUseCase(repository)
 
-    fun addItem(itemId : Int){
-       val item =  addShoppingNoteUseCase.addShoppingNote(itemId)
-
+    fun addItem(shoppingNote: ShoppingNote){
+        addShoppingNoteUseCase.addShoppingNote(shoppingNote)
     }
 
     fun editItem(shoppingNote: ShoppingNote){
         editShoppingNoteUseCase.editShoppingNote(shoppingNote)
     }
 
-    fun getItem(shoppingNote: ShoppingNote){
-        getItemUseCase.getShoppingItem(shoppingNote)
+    fun getItem(itemId : Int){
+        val item =   getItemUseCase.getShoppingItem(itemId)
     }
 }
