@@ -1,11 +1,13 @@
 package com.rivskyinc.shoppingnote.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rivskyinc.shoppingnote.R
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
             adapter.submitList(it)
+        }
+        val button_add_item  = findViewById<FloatingActionButton>(R.id.button_add_item)
+        button_add_item.setOnClickListener {
+            val intent = DetailShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
     }
 
@@ -57,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupOnClickListener() {
         adapter.onClickListener = {
             Log.d("MainActivityTest", it.toString())
+
         }
     }
 
