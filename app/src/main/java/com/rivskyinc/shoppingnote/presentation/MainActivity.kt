@@ -64,7 +64,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupOnClickListener() {
         adapter.onClickListener = {
             Log.d("MainActivityTest", it.toString())
-
+           val intent =  DetailShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
