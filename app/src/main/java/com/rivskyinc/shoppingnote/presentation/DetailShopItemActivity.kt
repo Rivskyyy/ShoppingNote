@@ -36,6 +36,14 @@ class DetailShopItemActivity : AppCompatActivity() {
             MODE_EDIT -> launchEditMode()
             MODE_ADD -> launchAddMode()
         }
+        viewModel.errorInputCount.observe(this){
+            val message = if ( it){
+                getString(R.string.error_input_message)
+            } else {
+                null
+            }
+            countInput.error = message
+        }
     }
 
     private fun launchAddMode() {
