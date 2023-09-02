@@ -39,6 +39,9 @@ class DetailShopItemActivity : AppCompatActivity() {
     }
 
     private fun launchAddMode() {
+        buttonSave.setOnClickListener {
+            viewModel.addItem(editName.text?.toString(), editCount.text?.toString())
+        }
     }
 
     private fun launchEditMode() {
