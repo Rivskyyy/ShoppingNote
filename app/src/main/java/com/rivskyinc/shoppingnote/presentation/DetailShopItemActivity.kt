@@ -15,7 +15,7 @@ import java.lang.RuntimeException
 
 class DetailShopItemActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: DetailViewModel
 
     private lateinit var nameInput : TextInputEditText
     private lateinit var countInput: TextInputEditText
@@ -31,7 +31,26 @@ class DetailShopItemActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_shop_item)
         parseIntent()
         initViews()
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
+        when(screenMode){
+            MODE_EDIT -> launchEditMode()
+            MODE_ADD -> launchAddMode()
+        }
+    }
+
+    private fun launchAddMode() {
+    }
+
+    private fun launchEditMode() {
+       val itemId =  viewModel.getItem(shopItemId)
+
+        viewModel.shopItem.observe(this){
+            editName.setText(it.name)
+            editCount.setText(it.count.toString())
+            buttonSave.setOnClickListener {
+                viewModel.editItem(editName.text?.toString(), editCount.text?.toString())
+            }
+        }
     }
 
     private fun parseIntent() {
