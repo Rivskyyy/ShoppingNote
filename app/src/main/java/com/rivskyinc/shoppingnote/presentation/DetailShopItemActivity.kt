@@ -35,11 +35,8 @@ class DetailShopItemActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
         addChangeTextListener()
+        launchRightMode()
 
-        when (screenMode) {
-            MODE_EDIT -> launchEditMode()
-            MODE_ADD -> launchAddMode()
-        }
         viewModel.errorInputCount.observe(this) {
             val message = if (it) {
                 getString(R.string.error_input_message)
@@ -58,6 +55,12 @@ class DetailShopItemActivity : AppCompatActivity() {
         }
         viewModel.closePermissionScreen.observe(this) {
             finish()
+        }
+    }
+    private fun  launchRightMode(){
+        when (screenMode) {
+            MODE_EDIT -> launchEditMode()
+            MODE_ADD -> launchAddMode()
         }
     }
 
