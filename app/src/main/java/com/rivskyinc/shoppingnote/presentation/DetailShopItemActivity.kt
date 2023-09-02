@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
@@ -32,6 +34,20 @@ class DetailShopItemActivity : AppCompatActivity() {
         parseIntent()
         initViews()
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
+        editName.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
         when(screenMode){
             MODE_EDIT -> launchEditMode()
             MODE_ADD -> launchAddMode()
@@ -43,6 +59,17 @@ class DetailShopItemActivity : AppCompatActivity() {
                 null
             }
             countInput.error = message
+        }
+        viewModel.errorInputName.observe(this){
+            val message = if ( it){
+                getString(R.string.error_input_message)
+            } else {
+                null
+            }
+            nameInput.error = message
+        }
+        viewModel.closePermissionScreen.observe(this){
+            finish()
         }
     }
 
