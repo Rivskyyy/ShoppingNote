@@ -6,10 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.rivskyinc.shoppingnote.R
+import com.rivskyinc.shoppingnote.domain.ShoppingNote
+import java.lang.RuntimeException
 
 class DetailShopItemActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var nameInput : TextInputEditText
     private lateinit var countInput: TextInputEditText
@@ -17,12 +23,32 @@ class DetailShopItemActivity : AppCompatActivity() {
     private lateinit var editCount : EditText
     private lateinit var buttonSave : Button
 
+    private var screenMode = SCREEN_MODE
+    private var shopItemId = ShoppingNote.UNDEFINED
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_shop_item)
+        parseIntent()
         initViews()
-        val getIntentString = intent.getStringExtra(EXTRA_SCREEN_MODE)
-        val getIntentInt =  intent.getIntExtra(MODE_ID, 0 )
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+    }
+
+    private fun parseIntent() {
+        if ( !intent.hasExtra(EXTRA_SCREEN_MODE)){
+            throw RuntimeException("screen mode is absent")
+        }
+        val mode = intent.getStringExtra(EXTRA_SCREEN_MODE)
+        if ( mode != MODE_ADD && mode != MODE_EDIT ){
+            throw RuntimeException("Unknown screen mode $mode ")
+        }
+        screenMode = mode
+        if ( screenMode == MODE_EDIT){
+            if(!intent.hasExtra(MODE_ID)){
+                throw RuntimeException("shop item id is absent")
+            }
+            shopItemId = intent.getIntExtra(MODE_ID, -1 )
+        }
     }
 
     private fun initViews() {
@@ -40,6 +66,7 @@ class DetailShopItemActivity : AppCompatActivity() {
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_ADD = "mode_add"
         private const val MODE_ID = "mode_id"
+        private const val SCREEN_MODE = ""
 
         fun newIntentAddItem(context: Context ) : Intent {
             val intent = Intent(context, DetailShopItemActivity::class.java)
