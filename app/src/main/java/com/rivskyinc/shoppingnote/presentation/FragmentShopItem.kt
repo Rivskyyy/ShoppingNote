@@ -155,6 +155,7 @@ class FragmentShopItem : Fragment() {
 
     }
 
+
     companion object {
         private const val SCREEN_MODE = "extra_mode"
         private const val MODE_EDIT = "mode_edit"
