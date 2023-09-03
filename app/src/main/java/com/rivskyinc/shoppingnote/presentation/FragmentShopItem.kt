@@ -26,7 +26,10 @@ class FragmentShopItem : Fragment() {
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShoppingNote.UNDEFINED
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parseParams()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,13 +41,14 @@ class FragmentShopItem : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parseParams()
         initViews(view)
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
         addChangeTextListener()
         launchRightMode()
         observeViewModel()
     }
+
+
 
     private fun observeViewModel() {
         viewModel.errorInputCount.observe(viewLifecycleOwner) {
@@ -125,11 +129,20 @@ class FragmentShopItem : Fragment() {
     }
 
     private fun parseParams() {
-        if (screenMode != MODE_EDIT && screenMode != MODE_ADD) {
+        val args = requireArguments()
+        if (args.containsKey(SCREEN_MODE)) {
             throw RuntimeException("screen mode is absent")
         }
-        if (screenMode == MODE_EDIT && shopItemId == ShoppingNote.UNDEFINED) {
-            throw RuntimeException("shop item id is absent")
+        val mode = args.getString(SCREEN_MODE)
+        if (mode != MODE_ADD && mode != MODE_EDIT) {
+            throw RuntimeException("Unknown screen mode $mode ")
+        }
+        screenMode = mode
+        if (screenMode == MODE_EDIT) {
+            if (!args.containsKey(MODE_ID)) {
+                throw RuntimeException("shop item id is absent")
+            }
+            shopItemId = args.getInt(MODE_ID, -1)
         }
     }
 
