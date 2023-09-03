@@ -25,9 +25,17 @@ class MainActivity : AppCompatActivity() {
         }
         val button_add_item  = findViewById<FloatingActionButton>(R.id.button_add_item)
         button_add_item.setOnClickListener {
-            val intent = DetailShopItemActivity.newIntentAddItem(this)
-            startActivity(intent)
+            if ( isOnePaneMode()) {
+                val intent = DetailShopItemActivity.newIntentAddItem(this)
+                startActivity(intent)
+            } else {
+                launchFragment(FragmentShopItem.newInstanceAddItem())
+            }
         }
+    }
+
+    private fun isOnePaneMode() : Boolean{
+
     }
 
     private fun launchFragment (fragment: Fragment){
