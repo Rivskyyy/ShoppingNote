@@ -1,9 +1,9 @@
 package com.rivskyinc.shoppingnote.presentation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +30,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun launchFragment (fragment: Fragment){
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_shop_item_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
     private fun setupRecyclerVew() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.rv_shop_list)
