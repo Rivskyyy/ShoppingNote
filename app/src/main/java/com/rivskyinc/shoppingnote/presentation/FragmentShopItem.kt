@@ -1,7 +1,5 @@
 package com.rivskyinc.shoppingnote.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,7 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.rivskyinc.shoppingnote.R
 import com.rivskyinc.shoppingnote.domain.ShoppingNote
 
-class FragmentShopItem : Fragment(){
+class FragmentShopItem : Fragment() {
 
     private lateinit var viewModel: DetailViewModel
 
@@ -40,13 +38,14 @@ class FragmentShopItem : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       // parseIntent()
+        parseParams()
         initViews(view)
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
         addChangeTextListener()
         launchRightMode()
         observeViewModel()
     }
+
     private fun observeViewModel() {
         viewModel.errorInputCount.observe(viewLifecycleOwner) {
             val message = if (it) {
@@ -125,24 +124,16 @@ class FragmentShopItem : Fragment(){
         }
     }
 
-//    private fun parseIntent() {
-//        if (!intent.hasExtra(SCREEN_MODE)) {
-//            throw RuntimeException("screen mode is absent")
-//        }
-//        val mode = intent.getStringExtra(SCREEN_MODE)
-//        if (mode != MODE_ADD && mode != MODE_EDIT) {
-//            throw RuntimeException("Unknown screen mode $mode ")
-//        }
-//        screenMode = mode
-//        if (screenMode == MODE_EDIT) {
-//            if (!intent.hasExtra(MODE_ID)) {
-//                throw RuntimeException("shop item id is absent")
-//            }
-//            shopItemId = intent.getIntExtra(MODE_ID, -1)
-//        }
-//    }
+    private fun parseParams() {
+        if (screenMode != MODE_EDIT && screenMode != MODE_ADD) {
+            throw RuntimeException("screen mode is absent")
+        }
+        if (screenMode == MODE_EDIT && shopItemId == ShoppingNote.UNDEFINED) {
+            throw RuntimeException("shop item id is absent")
+        }
+    }
 
-    private fun initViews(view : View) {
+    private fun initViews(view: View) {
         nameInput = view.findViewById(R.id.til_name)
         countInput = view.findViewById(R.id.til_count)
         editName = view.findViewById(R.id.edit_name)
@@ -150,6 +141,7 @@ class FragmentShopItem : Fragment(){
         buttonSave = view.findViewById(R.id.button_save)
 
     }
+
     companion object {
         private const val SCREEN_MODE = "extra_mode"
         private const val MODE_EDIT = "mode_edit"
@@ -157,7 +149,7 @@ class FragmentShopItem : Fragment(){
         private const val MODE_ID = "mode_id"
         private const val MODE_UNKNOWN = ""
 
-        fun newInstanceAddItem() : FragmentShopItem {
+        fun newInstanceAddItem(): FragmentShopItem {
             val args = Bundle().apply {
                 putString(SCREEN_MODE, MODE_ADD)
             }
@@ -167,10 +159,10 @@ class FragmentShopItem : Fragment(){
             return fragment
         }
 
-        fun newInstanceEditItem(shopId : Int ) : FragmentShopItem{
+        fun newInstanceEditItem(shopId: Int): FragmentShopItem {
             val args = Bundle().apply {
                 putString(SCREEN_MODE, MODE_EDIT)
-                putInt( MODE_ID, shopId)
+                putInt(MODE_ID, shopId)
             }
             val fragment = FragmentShopItem().apply {
                 arguments = args
