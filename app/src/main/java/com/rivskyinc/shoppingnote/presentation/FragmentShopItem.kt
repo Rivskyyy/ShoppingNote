@@ -166,19 +166,16 @@ class FragmentShopItem : Fragment(){
             }
             return fragment
         }
-        
-        fun newIntentAddItem(context: Context): Intent {
-            val intent = Intent(context, DetailShopItemActivity::class.java)
-            intent.putExtra(this.MODE_UNKNOWN, MODE_ADD)
-            return intent
-        }
 
-        fun newIntentEditItem(context: Context, id: Int): Intent {
-            val intent = Intent(context, DetailShopItemActivity::class.java)
-            intent.putExtra(this.MODE_UNKNOWN, MODE_EDIT)
-            intent.putExtra(MODE_ID, id)
-            return intent
-
+        fun newInstanceEditItem(shopId : Int ) : FragmentShopItem{
+            val args = Bundle().apply {
+                putString(SCREEN_MODE, MODE_EDIT)
+                putInt( MODE_ID, shopId)
+            }
+            val fragment = FragmentShopItem().apply {
+                arguments = args
+            }
+            return fragment
         }
     }
 }
